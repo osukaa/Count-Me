@@ -1,0 +1,34 @@
+<style>
+body {
+}
+div{
+	width: 300px;
+}
+ul{
+	margin: 0 auto;
+	padding: 0;
+}
+li{
+	list-style: none;
+	padding: 3px 10px 3px 10px;
+	margin: 5px;
+	border: 1px solid #CCC;
+}
+</style>
+<script>
+	chrome.tabs.getAllInWindow(null,function(tabs){
+		var newdiv = document.createElement('div');
+		newdiv.setAttribute('id','main');
+		var newul = document.createElement('ul');
+		newul.setAttribute('id','opentabs');
+		document.body.appendChild(newdiv);
+		document.getElementById('main').appendChild(newul);
+		var lista = document.getElementById('opentabs');
+		for (var i = 0, tab; tab = tabs[i]; i++)
+		{
+			var element = document.createElement('li');
+			element.innerHTML = tab.title;
+			lista.insertBefore(element,lista.firstChild);
+		}
+	});
+</script>

@@ -1,0 +1,13 @@
+{
+  "name": "Tab Array",
+  "description": "Displays all tabs open",
+  "version": "1.0",
+  "background_page": "background.html",
+  "permissions": [
+    "tabs"
+  ],
+  "browser_action": {
+	  "popup": "popup.html",
+	  "default_icon": "icon.png"
+  }
+}
