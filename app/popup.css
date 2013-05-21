@@ -1,7 +1,7 @@
-html,body {
-  width: 100%;
-}
-
 ul {
   list-style: none;
+}
+
+ul > li {
+  border: 1px solid black;
 }

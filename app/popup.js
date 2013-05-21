@@ -5,6 +5,9 @@ chrome.windows.getCurrent({populate: true},function (window){
   {
     var element = document.createElement('li');
     element.innerHTML = window.tabs[i].title;
+    element.addEventListener("click",function(){
+      chrome.tabs.update(window.tabs[i].id,{active:false})
+    },false);
     list.appendChild(element);
   }
 });
