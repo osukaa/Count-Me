@@ -1,7 +1,27 @@
+html,body {
+  width: 100%;
+}
+
+#main {
+  min-width: 300px;
+}
+
 ul {
   list-style: none;
+  padding-left: 0;
 }
 
 ul > li {
-  border: 1px solid black;
+  padding: 3px 1px;
+  width:300px;
+}
+
+ul > li > a {
+  outline: 0;
+}
+
+ul > li > img {
+  width:16px;
+  height: auto;
+  padding-right: 2px;
 }

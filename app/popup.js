@@ -1,13 +1,22 @@
+function changeTab(tabID){
+  chrome.tabs.update(tabID,{active:true});
+}
+
 chrome.windows.getCurrent({populate: true},function (window){
   list = document.getElementById('open-tabs');
-  tabCount = window.tabs.length;
-  for (var i = 0; i < tabCount; i++)
+  for (var i = 0; i < window.tabs.length; i++)
   {
-    var element = document.createElement('li');
-    element.innerHTML = window.tabs[i].title;
-    element.addEventListener("click",function(){
-      chrome.tabs.update(window.tabs[i].id,{active:false})
-    },false);
-    list.appendChild(element);
+    var li = document.createElement('li');
+    var link = document.createElement('a');
+    link.setAttribute('href','#');
+    var img = document.createElement('img');
+    img.setAttribute('src',window.tabs[i].favIconUrl);
+    link.innerHTML = window.tabs[i].title;
+    link.addEventListener("click",function(iVal){
+      changeTab(window.tabs[iVal].id);
+    }.bind(this,i),false);
+    li.appendChild(img);
+    li.appendChild(link);
+    list.appendChild(li);
   }
 });
