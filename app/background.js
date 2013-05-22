@@ -1,25 +1,34 @@
 tabCount = 0;
+newTabID = 0;
+thisWindowId = 0;
 
 function updateBadgeText(){
-  console.log('update');
   chrome.browserAction.setBadgeText({text: String(tabCount)});
 }
 
 chrome.windows.getCurrent({populate: true},function (window){
-  console.log('init');
   tabCount = window.tabs.length;
-  console.log(tabCount);
-  updateBadgeText();
-})
-
-chrome.tabs.onCreated.addListener(function(tab){
-  tabCount += 1;
-  console.log(tabCount);
+  thisWindowId = window.id;
   updateBadgeText();
 });
 
-chrome.tabs.onRemoved.addListener(function(tab){
-  tabCount -= 1;
-  console.log(tabCount);
-  updateBadgeText();
+chrome.tabs.onCreated.addListener(function(tab){
+  if (thisWindowId == tab.windowId) {
+    newTabID = tab.id;
+  };
+});
+
+chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab) {
+  if (newTabID == tabId && changeInfo["status"] == "complete") {
+    newTabID = 0;
+    tabCount++;
+    updateBadgeText();
+  };
+});
+
+chrome.tabs.onRemoved.addListener(function(tabId,removeInfo) {
+  if (thisWindowId == removeInfo["windowId"]) {
+    tabCount--;
+    updateBadgeText();
+  };
 });
