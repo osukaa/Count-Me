@@ -1,5 +1,4 @@
 tabCount = 0;
-newTabID = 0;
 thisWindowId = 0;
 
 function updateBadgeText(){
@@ -7,20 +6,11 @@ function updateBadgeText(){
 }
 
 chrome.windows.getCurrent({populate: true},function (window){
-  tabCount = window.tabs.length;
   thisWindowId = window.id;
-  updateBadgeText();
 });
 
 chrome.tabs.onCreated.addListener(function(tab){
-  if (thisWindowId == tab.windowId) {
-    newTabID = tab.id;
-  };
-});
-
-chrome.tabs.onUpdated.addListener(function(tabId,changeInfo,tab) {
-  if (newTabID == tabId && changeInfo["status"] == "complete") {
-    newTabID = 0;
+  if (tab.windowId == thisWindowId) {
     tabCount++;
     updateBadgeText();
   };
