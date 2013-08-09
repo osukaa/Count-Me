@@ -1,24 +1,29 @@
-tabCount = 0;
-thisWindowId = 0;
+var tabCount = 0;
 
-function updateBadgeText(){
+function updateBadgeText(sum){
+  if(sum == 1){
+    tabCount++;
+  }
+  else if (sum == 0){
+    tabCount--;
+  }
+  console.log(tabCount);
   chrome.browserAction.setBadgeText({text: String(tabCount)});
 }
 
 chrome.windows.getCurrent({populate: true},function (window){
-  thisWindowId = window.id;
+  console.log('Init');
+  tabCount = window.tabs.length;
+  console.log(tabCount);
+  updateBadgeText(null);
 });
 
 chrome.tabs.onCreated.addListener(function(tab){
-  if (tab.windowId == thisWindowId) {
-    tabCount++;
-    updateBadgeText();
-  };
+  console.log('Create');
+  updateBadgeText(1);
 });
 
 chrome.tabs.onRemoved.addListener(function(tabId,removeInfo) {
-  if (thisWindowId == removeInfo["windowId"]) {
-    tabCount--;
-    updateBadgeText();
-  };
+  console.log('Delete')
+  updateBadgeText(0);
 });
